@@ -346,3 +346,7 @@ Copyright
 =========
 
 This document has been placed in the public domain.
+
+For the legal description of the statement above see:
+
+http://creativecommons.org/publicdomain/zero/1.0/
