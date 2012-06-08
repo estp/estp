@@ -25,7 +25,7 @@ Protocol Works on Top of Existing Framing
 
 The original intention was to have protocol working on top of ZeroMQ and
 Crossroads IO, but the only real requirement for the underlying protocol is
-framing (or message delimitation). So UDP, SCTP, and Websockets can also be 
+framing (or message delimitation). So UDP, SCTP, and Websockets can also be
 used as underlying protocols.
 
 We also do not provide a way to group messages into batches. The Nagle
@@ -40,7 +40,7 @@ Interval Based Accounting
 The protocol is suited to sending statistical counters reported at short regular
 time intervals, e.g. CPU usage or messages passed though a gateway. It is not
 suited to sending massive number of statistics (e.g. on each user request or each
-network packet). It is not suited to transmitting large chunks of data at 
+network packet). It is not suited to transmitting large chunks of data at large
 intervals.
 
 
@@ -56,7 +56,7 @@ No Authentication, Compression and Encryption
 ---------------------------------------------
 
 From the point of view of the authors of the protocol, the authentication,
-compression, and encryption are better done by underlying protocols. There 
+compression, and encryption are better done by underlying protocols. There
 are protocols for that. E.g. SSH or one of the various VPN implementations.
 
 
