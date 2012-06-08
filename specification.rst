@@ -72,6 +72,15 @@ The hostname is in reverse domain notation. After the last colon, whitespace is
 insignificant, but at least one space should separate fields. The value can
 have a type marker which is described below.
 
+Another example that uses resource name and counter type (see below)::
+
+    ESTP:org.example:network:eth0:bytes_written: 2012-06-02T09:36:45 10 1000000^
+
+And example that shows that more hierarchy can be introduced in metric
+names, if required::
+
+    ESTP:org.example.s1:disk.usage:system/root:free.sectors: 2012-06-02T09:36:45 3600 123456789
+
 Everything after the line-feed (LF) character (if present) is treated as extension
 data. Each line of extension data must start with at least one SPACE
 character.  Lines starting with exactly one space and a colon (" :") are
