@@ -11,9 +11,9 @@ Abstract
 ========
 
 There are various monitoring and statistics collection solutions.  Most of them
-are not interoperable.  Occasionally there is also need to implement custom
-processing for statistics data.  The goal for this protocol is to have a common
-protocol to build statistics processing solutions.
+are not interoperable.  Occasionally there is also the need to implement custom
+processing for statistics data.  The goal of this protocol is to have a common
+protocol for building statistics processing solutions.
 
 
 Scope of the Protocol
@@ -23,13 +23,13 @@ Scope of the Protocol
 Protocol Works on Top of Existing Framing
 -----------------------------------------
 
-The original intention was to have protocol working on top of Zeromq and
-Crossroads IO, but the only real requirement to the underlying protocol is
-framing (or message delimitation). So UDP and SCTP can be used as underlying
-protocol too, as well as Websocket.
+The original intention was to have protocol working on top of ZeroMQ and
+Crossroads IO, but the only real requirement for the underlying protocol is
+framing (or message delimitation). So UDP, SCTP, and Websockets can also be 
+used as underlying protocols.
 
-We also do not provide a way to group messages into bulks. There is Nagle
-algorithm for this task in TCP. For Zeromq and Crossroads IO a special device
+We also do not provide a way to group messages into batches. The Nagle
+algorithm does this for TCP. For ZeroMQ and Crossroads IO a special device
 can be implemented that transparently compresses and decompresses a bunch of
 messages.
 
@@ -37,34 +37,33 @@ messages.
 Interval Based Accounting
 -------------------------
 
-The protocol is suited to send statistical counters reported at short regular
-time intervals , e.g. CPU usage or messages passed though a gateway. It is not
-suited to send massive number of statistics (e.g. on each user request or each
-network packet). It is not suited to transmit large chunks of data at big
+The protocol is suited to sending statistical counters reported at short regular
+time intervals, e.g. CPU usage or messages passed though a gateway. It is not
+suited to sending massive number of statistics (e.g. on each user request or each
+network packet). It is not suited to transmitting large chunks of data at 
 intervals.
 
 
 Easy Filtering
 --------------
 
-The protocol is designed to be filtered by subscriptions implemented in Zeromq
-and Crossroads IO. This allows to subscribe only to subset of statistics data.
-This gives a limitation to have only one value per message.
+The protocol is designed to be filtered by subscriptions implemented in ZeroMQ
+and Crossroads IO. This lets us subscribe only to subsets of statistics data.
+This gives a limitation of one value per message.
 
 
 No Authentication, Compression and Encryption
 ---------------------------------------------
 
 From the point of view of the authors of the protocol, the authentication,
-compression and encryption are better done by underlying protocol. There are
-plenty of protocols for that. E.g. SSH or one of the various VPN
-implementations.
+compression, and encryption are better done by underlying protocols. There 
+are protocols for that. E.g. SSH or one of the various VPN implementations.
 
 
 Overview
 ========
 
-Typical packet looks like following::
+A typical packet looks like this:
 
     ESTP:org.example:sys::cpu: 2012-06-02T09:36:45 10         7.2
          ^ host      ^ name    ^ timestamp         ^ interval ^ value
@@ -73,11 +72,11 @@ The hostname is in reverse domain notation. After the last colon, whitespace is
 insignificant, but at least one space should separate fields. The value can
 have a type marker which is described below.
 
-Everything after line-feed (LF) character (if exists) is treated as extension
-data. And each line of extension data must start with at least one SPACE
+Everything after the line-feed (LF) character (if present) is treated as extension
+data. Each line of extension data must start with at least one SPACE
 character.  Lines starting with exactly one space and a colon (" :") are
-reserved for the official extensions. Protocol built this way looks nice when
-stream of data is printed as is.
+reserved for official extensions. Protocols built this way looks nice when
+a stream of data is printed as-is.
 
 Here is an example of the packet with collectd extension::
 
@@ -95,18 +94,18 @@ Protocol Structure
 Basic Structure
 ---------------
 
-The protocol is text-based. Only printable ascii characters are allowed.
-However, the parsers are allowed to not to check this property.
+The protocol is text-based. Only printable ASCII characters are allowed.
+However, the parsers are allowed to not to check this constraint.
 
 The first line of the data frame is the metric itself. The line consists of
-the following whitespace separated parts:
+the following whitespace-separated parts:
 
 * metric full name
 * timestamp
 * measure interval
 * value and value type marker
 
-Each part is described in details below.
+Each part is described in detail below.
 
 The following lines of the data frame are extension data. Each line of
 extension data should be started by at least one space. Otherwise extension
@@ -122,7 +121,7 @@ Metric Full Name
 Metric full name is a first part of the data frame. It is a string which starts
 with "ESTP:" and ends with a colon ":". The string consists of 4 parts
 separated by a colon. Each part can contain arbirary characters except
-whitespace and a colon (note only printable ascii characters are allowed in the
+whitespace and a colon (note only printable ASCII characters are allowed in the
 whole data frame).
 
 The parts of the metric name are following:
