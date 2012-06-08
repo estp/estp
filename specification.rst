@@ -244,7 +244,7 @@ Value and Type
 --------------
 
 The simplest value consists of digits and decimal dot. It's either integer or
-double-precision floating poing value. This kind of value is called "gauge" in
+double-precision floating point value. This kind of value is called "gauge" in
 RRD and Collectd.
 
 Other value types are denoted by appearance of special characters in value,
