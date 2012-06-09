@@ -81,11 +81,11 @@ names, if required::
 
     ESTP:org.example.s1:disk.usage:system/root:free.sectors: 2012-06-02T09:36:45 3600 123456789
 
-Everything after the line-feed (LF) character (if present) is treated as extension
-data. Each line of extension data must start with at least one SPACE
+Everything after the line-feed (LF) character (if present) is treated as
+extension data. Each line of extension data must start with at least one SPACE
 character.  Lines starting with exactly one space and a colon (" :") are
-reserved for official extensions. Protocols built this way looks nice when
-a stream of data is printed as-is.
+reserved for official extensions. Protocols built this way looks nice when a
+stream of data is printed as-is.
 
 Here is an example of the packet with collectd extension::
 
@@ -350,7 +350,33 @@ future. The decision whether to implement the rules outlined here is given to
 the protocol implementor, but we highly encourage to consider them to build
 interoperable and future proof protocol implementation.
 
-TBD
+As specified in `Basic Structure`_ there is extension section, that is
+specified after line-feed character. The extension section may contain
+arbitrary data (except limits specified above) that suits need of particular
+project or applications. For easier parsing it's recommended that each
+extension's data is contained in single line.
+
+There are the following provisions for future revisions of the protocol:
+
+* Timestamp field may be extended to support better precision. Parser should
+  skip trailing characters after the timestamp for forward compatibility
+
+* Annotations may be added to the value field (e.g. measure units). For this
+  case ``,`` (comma) and ``;`` (semicolon) characters are reserved. Forward
+  compatible parser should ignore everyting after the reserved characters, the
+  ignored data is guaranteed to have no influence on semantics of the value
+
+* More types may be added, if character right after the number is not in
+  documented set of type markers (``^'+``) and not in reserved set (``,;``),
+  parser should treat the value as undefined
+
+* Existing types may be parametrized. The forward compatible parser should
+  ignore everyting after type marker
+
+* Additional fields may be introduced after the value field
+
+* As the last resort ``ESTP:`` prefix will be changed to ``ESTP2:`` if
+  incompatible changes would be introduced
 
 
 Copyright
