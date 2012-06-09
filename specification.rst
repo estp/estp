@@ -154,6 +154,8 @@ inside. The convention is to use dot as the hierarchy delimiter. However, using
 a native way to specify hierarchy is preferred if exists (e.g. using ``/`` if
 the name is a file path of part of it)
 
+Each part is limited for up to 63 bytes. Giving 261 byte limit for full name.
+
 
 Hostname
 ````````
