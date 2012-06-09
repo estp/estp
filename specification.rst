@@ -63,7 +63,7 @@ are protocols for that. E.g. SSH or one of the various VPN implementations.
 Overview
 ========
 
-A typical packet looks like this:
+A typical packet looks like this::
 
     ESTP:org.example:sys::cpu: 2012-06-02T09:36:45 10         7.2
          ^ host      ^ name    ^ timestamp         ^ interval ^ value
@@ -157,18 +157,19 @@ the name is a file path of part of it)
 
 Hostname
 ````````
+
 The hostname is one of the following:
 
 * A fully qualified domain name in reverse notation. That means that top level
-domain goes first, second level next, and so on (e.g. ``org.example.server``)
+  domain goes first, second level next, and so on (e.g. ``org.example.server``)
 
 * IPv4 address in most commonly used dotted decimal notation (e.g.
-``127.0.0.1``)
+  ``127.0.0.1``)
 
 * IPv6 address in lowercased hexadecimal format, omitting colons and without
-abbreviation (e.g. loobback ``::1`` address is
-``0000000000000000000000000000000001``). This ensures that there is only one
-possible representation of the given ip address or network prefix.
+  abbreviation (e.g. loobback ``::1`` address is
+  ``0000000000000000000000000000000001``). This ensures that there is only one
+  possible representation of the given ip address or network prefix.
 
 Note: no reversing is applied to ip addresses.
 
@@ -234,9 +235,9 @@ Examples:
 
 * ``2012-06-06T14:54:12``
 
-.. note:: ISO8601 basic format (without dash and colon signs) is not supported.
-   Format support may be extended in the future revisions of the protocol to
-   allow better precision of timestamps.
+Note: ISO8601 basic format (without dash and colon signs) is not supported.
+Format support may be extended in the future revisions of the protocol to
+allow better precision of timestamps.
 
 
 Measure Interval
@@ -245,8 +246,8 @@ Measure Interval
 Measure interval is just a number of seconds that is expected between
 subsequent reports for this specific metric.
 
-.. note:: The field may be extended to support higher precision measure
-   interval in the future revisions of the protocol by using decimal point
+Note: The field may be extended to support higher precision measure
+interval in the future revisions of the protocol by using decimal point
 
 
 Value and Type
@@ -283,11 +284,11 @@ The counters which accumulate number of events can be sent as is using this
 type. The example of such counters are number of bytes sent throught the
 gateway, or number of email messages sent by mail agent.
 
-.. note:: This version of the protocol has no notion of counter wrap. This
-   event is deemed as insignificant, or at least less important than treating
-   counter reset as counter wrap. So for RRD-based implementations its
-   recommented to use DERIVE type with minimum of 0 to store value of ESTP
-   counter type
+Note: This version of the protocol has no notion of counter wrap. This
+event is deemed as insignificant, or at least less important than treating
+counter reset as counter wrap. So for RRD-based implementations its
+recommented to use DERIVE type with minimum of 0 to store value of ESTP
+counter type
 
 
 Derive Type
@@ -297,9 +298,9 @@ This type is basically similar to counter except the number is expected to be
 able to become lower. For example if you have a free space
 on hard drive, you may want to know how the data size changes over time.
 
-.. note:: We have no maximum and minimum limits at the moment. So it's
-   impossible to find out whether the value was just reset or the delta is so
-   big. So use of this type is not recommended for non-persistent counters.
+Note: We have no maximum and minimum limits at the moment. So it's
+impossible to find out whether the value was just reset or the delta is so
+big. So use of this type is not recommended for non-persistent counters.
 
 
 Delta Type
@@ -307,8 +308,8 @@ Delta Type
 
 Number with this type denotes the number of events occured during the interval.
 
-.. note:: This is ABSOLUTE type from the RRDTool, but I find that name
-   misleading
+Note: This is ABSOLUTE type from the RRDTool, but I find that name
+misleading
 
 
 Choosing the Right Data Type
@@ -318,25 +319,25 @@ Selecting the data type is trivial problem although not very obvious at first
 glance.  There are some rules of thumb:
 
 1. Use gauge and delta type if possible as it allows stateless inspection of
-statistics
+   statistics
 
 2. Use gauge on values that are same for any measuring interval (e.g. CPU usage
-or memory free)
+   or memory free)
 
-2. Use delta type for events over time values. It's not only semantially right,
-it also allows to change interval without loosing old data, and it allows GUI
-to display rate values over larger periods of time (e.g. you submit messages
-per ten second period, and GUI shows messages per hour and messages per day)
+3. Use delta type for events over time values. It's not only semantially right,
+   it also allows to change interval without loosing old data, and it allows GUI
+   to display rate values over larger periods of time (e.g. you submit messages
+   per ten second period, and GUI shows messages per hour and messages per day)
 
-3. Use counter type when you have no state, or when you have no control over
-when exactly the value is measured (or in other words if your timer is
-inacurate). E.g. getting received bytes from router by SNMP may take a time if
-network load is high.
+4. Use counter type when you have no state, or when you have no control over
+   when exactly the value is measured (or in other words if your timer is
+   inacurate). E.g. getting received bytes from router by SNMP may take a time if
+   network load is high.
 
-4. Use derive type when you need to track the change of some value. Do not use
-it for volatile counters which can be reset on software restart, and on
-counters that wrap. Example of such value is database size: it's fully
-non-volatile value and it's grows is more interesting that the full size.
+5. Use derive type when you need to track the change of some value. Do not use
+   it for volatile counters which can be reset on software restart, and on
+   counters that wrap. Example of such value is database size: it's fully
+   non-volatile value and it's grows is more interesting that the full size.
 
 
 Forward Compatiblity
