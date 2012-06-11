@@ -279,9 +279,7 @@ Examples:
 * ``1ab4:x-my-type``
 
 Note: Only first character after colon denotes type, all following characters
-must be ignored (they are reserved for optional parameters of the type). The
-types starting with "x" are free to use in any application for experimenting,
-at risk of incompatibily problems between implementations.
+must be ignored (they are reserved for optional parameters of the type)
 
 Counter Type
 ````````````
@@ -316,6 +314,18 @@ Number with this type denotes the number of events occured during the interval.
 
 Note: This is ABSOLUTE type from the RRDTool, but I find that name
 misleading
+
+
+Extention Type
+``````````````
+
+The types starting with "x" are free to use in any application for
+experimenting. Its use is discouraged for interoperable applications.
+
+Note: the type should be used for values that can't be represented by existing
+type system. If you just need more specific data type or a measure unit, please
+choose a generic type and specify more precise data type or unit in extension
+specific to your application.
 
 
 Choosing the Right Data Type
