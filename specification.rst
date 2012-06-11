@@ -74,7 +74,7 @@ have a type marker which is described below.
 
 Another example that uses resource name and counter type (see below)::
 
-    ESTP:org.example:network:eth0:bytes_written: 2012-06-02T09:36:45 10 1000000^
+    ESTP:org.example:network:eth0:bytes_written: 2012-06-02T09:36:45 10 1000000:c
 
 And example that shows that more hierarchy can be introduced in metric
 names, if required::
