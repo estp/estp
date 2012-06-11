@@ -255,29 +255,33 @@ interval in the future revisions of the protocol by using decimal point
 Value and Type
 --------------
 
-The simplest value consists of digits and decimal dot. It's either integer or
-double-precision floating point value. This kind of value is called "gauge" in
-RRD and Collectd.
+The simplest value consists of digits and decimal dot if needed. It's either
+integer or double-precision floating point value. This kind of value is called
+"gauge" in RRD and Collectd.
 
-Other value types are denoted by appearance of special characters in value,
-right after the number:
+Other value types are denoted by appearance of colon and data type letter
+after colon:
 
-* ``^`` -- a ever-growing "counter" (mnemonic: arrow up denotes constant
-  growth)
+* ``c`` -- a ever-growing "counter"
 
-* ``'`` (apostrophe) -- a "derive" type (mnemonic: same sign is used for
-  derivatives in maths)
+* ``d`` -- a "derive" type
 
-* ``+`` -- character denotes "delta" type (mnemonic: the number is added to
-  the entropy)
+* ``a`` -- a "delta" type
+
+* ``x`` -- an extension type, the real type must follow ``x`` character
 
 Examples:
 
 * ``10``, ``45.123``
-* ``123456789^``
-* ``2345.234'``
-* ``123+``
+* ``123456789:c``
+* ``2345.234:d``
+* ``123:a``
+* ``1ab4:x-my-type``
 
+Note: Only first character after colon denotes type, all following characters
+must be ignored (they are reserved for optional parameters of the type). The
+types starting with "x" are free to use in any application for experimenting,
+at risk of incompatibily problems between implementations.
 
 Counter Type
 ````````````
@@ -350,11 +354,17 @@ future. The decision whether to implement the rules outlined here is given to
 the protocol implementor, but we highly encourage to consider them to build
 interoperable and future proof protocol implementation.
 
-As specified in `Basic Structure`_ there is extension section, that is
-specified after line-feed character. The extension section may contain
-arbitrary data (except limits specified above) that suits need of particular
-project or applications. For easier parsing it's recommended that each
-extension's data is contained in single line.
+The following are extension points free for any use:
+
+* The extension section may contain arbitrary data (except limits specified
+  above) that suits need of particular project or application. For easier
+  parsing it's recommended that each extension's data is contained in single
+  line
+
+* Types starting with "x". Before ``:x`` any data is allowed except colon and
+  reserved characters (``:,;``). After the type, any characters are allowed
+  (note, that no whitespace is allowed in the value field).  However, using
+  such types is highly discouraged for interoperability reasons
 
 There are the following provisions for future revisions of the protocol:
 
@@ -366,12 +376,15 @@ There are the following provisions for future revisions of the protocol:
   compatible parser should ignore everyting after the reserved characters, the
   ignored data is guaranteed to have no influence on semantics of the value
 
-* More types may be added, if character right after the number is not in
-  documented set of type markers (``^'+``) and not in reserved set (``,;``),
-  parser should treat the value as undefined
+* More types may be added, if the type character is not in the documented set
+  of types (``c``, ``d``, ``a``), the value must be treated as undefined
+  (including ``x`` character, unless that type is specified by
+  application-defined means)
 
 * Existing types may be parametrized. The forward compatible parser should
-  ignore everyting after type marker
+  ignore everyting after type marker. The parser must check only first
+  character of the type. Gauge type is guaranteed to be never parametrized
+  (however, the annotations may be added as defined above)
 
 * Additional fields may be introduced after the value field
 
