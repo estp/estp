@@ -25,7 +25,7 @@ Extension Structure
 
 Extension name is "collectd". According to ESTP specification, the extension
 line must start with `` :collectd:`` (note the space at the start). Following
-is a list of key-value pairs delimited equals (``=``) sign. The keys are::
+is a list of key-value pairs delimited equals (``=``) sign. The keys are:
 
 * ``type`` -- the collectd type of the value, must exists in types.db if
   different from "gauge", "derive", "absolute"
@@ -41,7 +41,7 @@ The "suffix" that contained in ``items`` is a substring of metric name (part
 between the last pair of the colons of metric full name) starting from last dot
 to the end or the whole metric name if no dot exists in metric name.
 
-Only one extension line starting with `` :collectd:`` is allowed. (Only first
+Only one extension line starting with ``:collectd:`` is allowed. (Only first
 such line is parsed by collectd plugin)
 
 
