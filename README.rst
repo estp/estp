@@ -19,4 +19,5 @@ Projects using ESTP
 ===================
 
 * Collectd Plugin: https://github.com/estp/collectd-zeromq-estp
+* Paperjam (submits data by ESTP over zeromq or libxs): https://github.com/tailhook/paperjam
 
