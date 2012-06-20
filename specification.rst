@@ -65,8 +65,8 @@ Overview
 
 A typical packet looks like this::
 
-    ESTP:org.example:sys::cpu: 2012-06-02T09:36:45 10         7.2
-         ^ host      ^ name    ^ timestamp         ^ interval ^ value
+    ESTP:org.example:sys::cpu: 2012-06-02T09:36:45Z 10         7.2
+         ^ host      ^ name    ^ timestamp          ^ interval ^ value
 
 The hostname is in reverse domain notation. After the last colon, whitespace is
 insignificant, but at least one space should separate fields. The value can
@@ -74,12 +74,12 @@ have a type marker which is described below.
 
 Another example that uses resource name and counter type (see below)::
 
-    ESTP:org.example:network:eth0:bytes_written: 2012-06-02T09:36:45 10 1000000:c
+    ESTP:org.example:network:eth0:bytes_written: 2012-06-02T09:36:45Z 10 1000000:c
 
 And example that shows that more hierarchy can be introduced in metric
 names, if required::
 
-    ESTP:org.example.s1:disk.usage:system/root:free.sectors: 2012-06-02T09:36:45 3600 123456789
+    ESTP:org.example.s1:disk.usage:system/root:free.sectors: 2012-06-02T09:36:45Z 3600 123456789
 
 Everything after the line-feed (LF) character (if present) is treated as
 extension data. Each line of extension data must start with at least one SPACE
@@ -89,7 +89,7 @@ stream of data is printed as-is.
 
 Here is an example of the packet with collectd extension::
 
-    ESTP:org.example:sys::cpu: 2012-06-02T09:36:45 12.3 10
+    ESTP:org.example:sys::cpu: 2012-06-02T09:36:45Z 12.3 10
      :collectd: type=cpu
 
 It sets collectd's type for the value to something more specific for collectd
@@ -231,15 +231,14 @@ Timestamp
 ---------
 
 Timestamp is ISO8601 combined date and time in extended format with the second
-precision. Date and time is always an UTC, to avoid ambiguity.
+precision. Date and time is always an UTC, to avoid ambiguity. The timestamp
+must end with uppercase ``Z`` letter.
 
 Examples:
 
-* ``2012-06-06T14:54:12``
+* ``2012-06-06T14:54:12Z``
 
 Note: ISO8601 basic format (without dash and colon signs) is not supported.
-Format support may be extended in the future revisions of the protocol to
-allow better precision of timestamps.
 
 
 Measure Interval
@@ -377,9 +376,6 @@ The following are extension points free for any use:
   such types is highly discouraged for interoperability reasons
 
 There are the following provisions for future revisions of the protocol:
-
-* Timestamp field may be extended to support better precision. Parser should
-  skip trailing characters after the timestamp for forward compatibility
 
 * Annotations may be added to the value field (e.g. measure units). For this
   case ``,`` (comma) and ``;`` (semicolon) characters are reserved. Forward
