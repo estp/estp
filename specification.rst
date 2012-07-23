@@ -3,8 +3,8 @@ Extensible Statistics Transmission Protocol
 ===========================================
 
 :Author: Paul Colomiets <paul@colomiets.name>
-:State: draft
-:Version: 0.3
+:State: stable
+:Version: 1.0
 
 
 Abstract
